@@ -15,10 +15,17 @@ research repository and was either caught by it or would have been.
 
 ## Install
 
+This package is **not on PyPI**. The name `evidence-gate` on PyPI belongs to an unrelated
+project (a CI audit-trail checker by another author); `pip install evidence-gate` would
+install that one. Install this repository directly:
+
 ```bash
-pip install evidence-gate            # core, no dependencies
-pip install "evidence-gate[guard]"   # adds numpy for the built-in canary
+pip install git+https://github.com/uosew/evidence-gate.git
+pip install "evidence-gate[guard] @ git+https://github.com/uosew/evidence-gate.git"   # adds numpy for the built-in canary
 ```
+
+The import name is `evidence_gate`; do not install both packages in the same environment.
+A distinct distribution name will be chosen before any PyPI release.
 
 ## Sixty seconds
 
