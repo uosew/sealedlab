@@ -1,4 +1,4 @@
-"""evidence-gate — discipline as code for computational experiments.
+"""sealedlab — discipline as code for computational experiments.
 
 Six small, independent pieces, each of which exists because a specific failure
 happened in a real research repository and was caught (or not) by it:

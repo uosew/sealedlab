@@ -1,6 +1,6 @@
 import json, pytest
 from pathlib import Path
-import evidence_gate as eg
+import sealedlab as eg
 
 
 def test_prereg_seal_and_ledger(tmp_path):

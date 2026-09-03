@@ -1,4 +1,4 @@
-# evidence-gate
+# sealedlab
 
 Discipline as code for computational experiments. Six small, dependency-free pieces
 (numpy optional), each of which exists because a specific failure happened in a real
@@ -15,22 +15,18 @@ research repository and was either caught by it or would have been.
 
 ## Install
 
-This package is **not on PyPI**. The name `evidence-gate` on PyPI belongs to an unrelated
-project (a CI audit-trail checker by another author); `pip install evidence-gate` would
-install that one. Install this repository directly:
-
 ```bash
-pip install git+https://github.com/uosew/evidence-gate.git
-pip install "evidence-gate[guard] @ git+https://github.com/uosew/evidence-gate.git"   # adds numpy for the built-in canary
+pip install sealedlab
+pip install "sealedlab[guard]"        # adds numpy for the built-in canary
 ```
 
-The import name is `evidence_gate`; do not install both packages in the same environment.
-A distinct distribution name will be chosen before any PyPI release.
+or straight from the repository: `pip install git+https://github.com/uosew/sealedlab.git`.
+(The project was briefly named `evidence-gate`; that PyPI name belongs to an unrelated project.)
 
 ## Sixty seconds
 
 ```python
-import evidence_gate as eg
+import sealedlab as eg
 
 sha = eg.seal_file("PREREG.md")                       # record this before running anything
 led = eg.Ledger("ledger.jsonl"); led.append("prereg_sealed", "hash recorded before any run", sha256=sha)

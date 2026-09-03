@@ -4,7 +4,7 @@ from .runtime_guard import environment_report
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="evidence-gate"); sub = ap.add_subparsers(dest="cmd", required=True)
+    ap = argparse.ArgumentParser(prog="sealedlab"); sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("seal", help="sha256 of a preregistration file (record it BEFORE running)"); s.add_argument("path")
     v = sub.add_parser("verify", help="verify a file against a recorded sha256"); v.add_argument("path"); v.add_argument("sha256")
     sub.add_parser("canary", help="run the runtime canaries and print the environment report")
