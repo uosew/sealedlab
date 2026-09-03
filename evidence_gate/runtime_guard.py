@@ -18,21 +18,45 @@ EVIDENCE_INCOMPLETE = "EVIDENCE_INCOMPLETE"
 RUN_INVALID_ENVIRONMENT = "RUN_INVALID_ENVIRONMENT"
 
 
+def _probe_infix(np, n, op):
+    """Statements on SEPARATE lines on purpose: numpy's elision heuristic inspects the
+    caller's bytecode, and a one-line `a = ...; _ = a ** 2` did not trigger the defect
+    (found by this package's own test on a defective interpreter, 2026-09-03)."""
+    a = np.full(n, 2.0)
+    b = np.full(n, 3.0)
+    if op == "**":
+        _ = a ** 2
+    elif op == "*":
+        _ = a * b
+    elif op == "+":
+        _ = a + b
+    elif op == "-":
+        _ = a - b
+    elif op == "/":
+        _ = a / b
+    return bool(a[0] != 2.0)
+
+
+def _probe_plain(np, n):
+    a = np.full(n, 2.0)
+    _ = a ** 2
+    return bool(a[0] != 2.0)
+
+
 def numpy_elision_canary(size_bytes: int = 256 * 1024) -> dict:
-    """True in any field means the operand was MUTATED by an infix operation."""
+    """True in any op field means the operand was MUTATED by an infix operation.
+    Two probe layouts are run (module-level function with `n` as argument, and a
+    dispatcher); a mutation in either counts."""
     try:
         import numpy as np
     except ImportError:
         return {"available": False}
     n = size_bytes // 8
-    def pow_():
-        a = np.full(n, 2.0); _ = a ** 2; return bool(a[0] != 2.0)
-    def mul_():
-        a = np.full(n, 2.0); b = np.full(n, 3.0); _ = a * b; return bool(a[0] != 2.0)
-    def add_():
-        a = np.full(n, 2.0); b = np.full(n, 3.0); _ = a + b; return bool(a[0] != 2.0)
-    res = {"available": True, "numpy": np.__version__, "**": pow_(), "*": mul_(), "+": add_()}
-    res["mutation"] = any(res[k] for k in ("**", "*", "+"))
+    res = {"available": True, "numpy": np.__version__}
+    for op in ("**", "*", "+", "-", "/"):
+        res[op] = _probe_infix(np, n, op)
+    res["plain"] = _probe_plain(np, n)
+    res["mutation"] = any(res[k] for k in ("**", "*", "+", "-", "/", "plain"))
     return res
 
 

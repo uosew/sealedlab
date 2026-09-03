@@ -74,5 +74,8 @@ def test_numpy_canary_runs_and_is_quiet_on_a_fixed_numpy():
     r = eg.numpy_elision_canary()
     assert r["available"]
     major, minor = map(int, np.__version__.split(".")[:2])
+    import sys
     if (major, minor) >= (2, 3):
         assert r["mutation"] is False
+    elif sys.version_info[:2] == (3, 14):
+        assert r["mutation"] is True          # the known defect: numpy < 2.3 on CPython 3.14
