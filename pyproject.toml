@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evidence-gate"
+version = "0.1.0"
+description = "Discipline as code for computational experiments: preregistration hashes, sealed panels, mutation-tested verdicts, fail-closed runtime guards, and a four-axis registry that refuses silent promotion."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Valentino Berardi"}]
+keywords = ["preregistration", "reproducibility", "scientific-discovery", "evidence", "blind-evaluation"]
+classifiers = ["Programming Language :: Python :: 3", "License :: OSI Approved :: MIT License", "Topic :: Scientific/Engineering", "Development Status :: 3 - Alpha"]
+dependencies = []
+
+[project.optional-dependencies]
+guard = ["numpy>=1.24"]
+dev = ["pytest>=8", "numpy>=1.24", "build"]
+
+[project.scripts]
+evidence-gate = "evidence_gate.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["evidence_gate*"]
